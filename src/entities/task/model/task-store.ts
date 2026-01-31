@@ -2,9 +2,11 @@ import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { Task, NewTask, TaskStatus, TaskPriority } from './task-types';
 import uuid from 'react-native-uuid';
+import { taskApi } from '../api/task-api';
 
 interface TaskState {
   tasks: Task[];
+  loadTasks: () => Promise<void>;
   addTask: (newTask: NewTask) => void;
   updateTask: (taskId: string, updates: Partial<Task>) => void;
   deleteTask: (taskId: string) => void;
@@ -15,6 +17,12 @@ interface TaskState {
 export const useTaskStore = create<TaskState>()(
   immer((set, get) => ({
     tasks: [], // Initial state, will be loaded from storage
+    loadTasks: async () => {
+      const storedTasks = await taskApi.getTasks();
+      set(state => {
+        state.tasks = storedTasks;
+      });
+    },
     addTask: (newTask) => {
       set((state) => {
         const id = uuid.v4().toString();
@@ -30,6 +38,7 @@ export const useTaskStore = create<TaskState>()(
           dueDate: newTask.dueDate,
           categoryId: newTask.categoryId,
         });
+        taskApi.saveAllTasks(state.tasks);
       });
     },
     updateTask: (taskId, updates) => {
@@ -37,12 +46,14 @@ export const useTaskStore = create<TaskState>()(
         const task = state.tasks.find((t) => t.id === taskId);
         if (task) {
           Object.assign(task, { ...updates, updatedAt: Date.now() });
+          taskApi.saveAllTasks(state.tasks);
         }
       });
     },
     deleteTask: (taskId) => {
       set((state) => {
         state.tasks = state.tasks.filter((t) => t.id !== taskId);
+        taskApi.saveAllTasks(state.tasks);
       });
     },
     getTaskById: (taskId) => {
