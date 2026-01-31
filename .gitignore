@@ -1,0 +1,79 @@
+# Node
+node_modules/
+bun.lockb
+.npm/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Runtime
+.expo/
+.expo-shared/
+dist/
+web-build/
+.bin/
+.yarn/
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# Expo
+.expo/
+*.jks
+*.p12
+*.key
+*.orig
+*.pyc
+*.swp
+.DS_Store
+.env
+.idea
+.vscode/
+android/build/
+ios/build/
+*.xcarchive
+*.tar.gz
+*.tgz
+*.zip
+.watchman/
+!/.expo-shared/
+# eas-build/
+# eas-build-cache/
+# eas-build-credentials/
+# eas-build-platform/
+
+# macOS
+.DS_Store
+
+# VS Code
+.vscode/
+
+# Build outputs
+build/
+output/
+
+# Test
+coverage/
+*.snap
+
+# Claude Kit
+.claude/
+.ck.json
+.ckignore
+.mcp.json
+.mcp.json.example
+
+# Ignore Docs and AI related files
+.opencode/
+docs/
+plans/
+CLAUDE.md
+AGENTS.md
